@@ -21,6 +21,7 @@ def build_prompt(question: str, chunks: list[dict]) -> str:
     return (f"<context>\n{ctx}\n</context>\n\n"
             f"Answer the question using only the context above. Output only the answer.\n"
             f"Question: {question}")
+
 class Generator:
     def __init__(self):
         self.client = OpenAI(base_url=BASE_URL, api_key=API_KEY)
