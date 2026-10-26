@@ -1,5 +1,10 @@
-data/raw/
 .venv/
 __pycache__/
-data/processed/
+*.pyc
+.env
 mlruns/
+data/raw/
+data/processed/*
+!data/processed/chunks.jsonl
+!data/processed/index.faiss
+!data/processed/index_meta.json
