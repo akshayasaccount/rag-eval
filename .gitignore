@@ -8,3 +8,4 @@ data/processed/*
 !data/processed/chunks.jsonl
 !data/processed/index.faiss
 !data/processed/index_meta.json
+mlflow.db
