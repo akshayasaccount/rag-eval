@@ -7,7 +7,7 @@ from generate import Generator
 def main():
     question = " ".join(sys.argv[1:]) or "What metrics does RAGAS use to evaluate a RAG pipeline?"
     r, rr, g = Retriever(), Reranker(), Generator()
-    pool = r.search(question, mode="hybrid", k=30)
+    pool = r.candidates(question)
     top = rr.rerank(question, pool, k=5)
     out = g.answer(question, top)
     print("\nQ:", question)

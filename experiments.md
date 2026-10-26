@@ -95,3 +95,13 @@
 - Step 8 order: (1) rerank over union of dense+bm25 lists, (2) title injection, (3) bge query instruction,
   (4) BM25-weighted RRF, (5) bge-base embedder, (6) bigger reranker, (7) references filter, (8) chunk size
 - Gold set: grow to 80 with >= 15 paraphrases and 10 not-in-corpus
+
+## 2026-10-26 - Step 8 runs 0-1
+- baseline_v2 (refactored config-driven code): identical to baseline -> regression check passed
+- pool_union=1: hybrid+rerank unchanged (0.62/0.90/0.90/0.73), q001 + q006 still missed, eval time 58s -> 118s.
+  Gold chunks ARE in the pool; MiniLM-L6 reranker demotes them. Ranking problem now, not recall. Reverted.
+- by type (r@5): dense factual 0.22 vs bm25 0.89 -> dense fails on paper/method names; hybrid paraphrase 0.75 > bm25 0.50
+- next: swap reranker (bge-reranker-base), then title injection for dense
+- reranker_bge_base: hybrid+rerank 0.52/0.86/0.95/0.67, miss q001 only (q006 recovered) but r@1 -10 pts, MRR -6 pts,
+  350s vs 58s. Within noise at n=21, 6x slower -> not adopted. q001 still missed with its chunks in the pool.
+- Step 8 paused after 3 runs (baseline, pool_union, reranker_bge_base). title_inject deferred until gold set = 80.
