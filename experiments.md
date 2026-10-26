@@ -105,3 +105,10 @@
 - reranker_bge_base: hybrid+rerank 0.52/0.86/0.95/0.67, miss q001 only (q006 recovered) but r@1 -10 pts, MRR -6 pts,
   350s vs 58s. Within noise at n=21, 6x slower -> not adopted. q001 still missed with its chunks in the pool.
 - Step 8 paused after 3 runs (baseline, pool_union, reranker_bge_base). title_inject deferred until gold set = 80.
+
+## 2026-10-26 - Step 9: serving + deployment
+- app.py: FastAPI with /health, /search (any mode), /ask (hybrid -> rerank -> LLM with citations), minimal HTML UI at /
+- Dockerfile (python:3.12-slim, CPU torch, models baked in at build, non-root user, port 7860)
+- Hugging Face Docker Spaces turned out to be paid-only for new free accounts (Oct 2026) -> deployed on Modal instead:
+  modal_app.py builds the same image, scales to zero, secret holds the LLM keys
+- Live: https://akshayareddy024--rag-eval-web.us-east.modal.run
